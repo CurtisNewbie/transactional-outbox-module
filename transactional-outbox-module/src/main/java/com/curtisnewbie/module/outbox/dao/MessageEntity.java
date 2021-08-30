@@ -1,5 +1,9 @@
 package com.curtisnewbie.module.outbox.dao;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /**
@@ -7,12 +11,15 @@ import java.util.Date;
  *
  * @author yongjie.zhuang
  */
+@Data
+@NoArgsConstructor
 public class MessageEntity {
-    /** whether the message is published, 0-not published, 1-published */
-    private Short isPublished;
 
     /** message id */
     private String messageId;
+
+    /** whether the message is published, 0-not published, 1-published */
+    private Integer isPublished;
 
     /** time when the message was published/created */
     private Date createTime;
@@ -20,46 +27,28 @@ public class MessageEntity {
     /** exchange name */
     private String exchange;
 
+    /** routing key */
+    private String routingKey;
+
     /** queue */
     private String queue;
 
-    public Short getIsPublished() {
-        return isPublished;
-    }
+    /** message body */
+    private String payload;
 
-    public void setIsPublished(Short isPublished) {
+    /** inferred type of payload */
+    private String payloadTypeInfer;
+
+    @Builder
+    public MessageEntity(String messageId, Integer isPublished, Date createTime, String exchange, String routingKey,
+                         String queue, String payload, String payloadTypeInfer) {
+        this.messageId = messageId;
         this.isPublished = isPublished;
-    }
-
-    public String getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(String messageId) {
-        this.messageId = messageId == null ? null : messageId.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public String getExchange() {
-        return exchange;
-    }
-
-    public void setExchange(String exchange) {
-        this.exchange = exchange == null ? null : exchange.trim();
-    }
-
-    public String getQueue() {
-        return queue;
-    }
-
-    public void setQueue(String queue) {
-        this.queue = queue == null ? null : queue.trim();
+        this.exchange = exchange;
+        this.routingKey = routingKey;
+        this.queue = queue;
+        this.payload = payload;
+        this.payloadTypeInfer = payloadTypeInfer;
     }
 }

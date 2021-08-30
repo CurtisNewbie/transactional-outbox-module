@@ -2,17 +2,13 @@ package com.curtisnewbie.module.outbox.dao;
 
 import java.util.Date;
 
-/**
- * Messages that are consumed
- *
- * @author yongjie.zhuang
- */
+/** Messages that are consumed */
 public class ConsumedMessageEntity {
     /** message id */
     private String messageId;
 
-    /** time when the message was published/created */
-    private Date createTime;
+    /** time when the message was consumed */
+    private Date consumeTime;
 
     public String getMessageId() {
         return messageId;
@@ -22,11 +18,11 @@ public class ConsumedMessageEntity {
         this.messageId = messageId == null ? null : messageId.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getConsumeTime() {
+        return consumeTime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setConsumeTime(Date consumeTime) {
+        this.consumeTime = consumeTime;
     }
 }
