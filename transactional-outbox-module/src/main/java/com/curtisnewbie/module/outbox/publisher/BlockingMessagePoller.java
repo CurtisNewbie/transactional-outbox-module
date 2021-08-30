@@ -74,6 +74,9 @@ public class BlockingMessagePoller implements MessagePoller {
         isClosing.set(true);
         if (bg != null && bg.isAlive())
             bg.interrupt();
+
+        PublishingWorker.notifyApplicationShutdown();
+        executor.shutdown();
     }
 
     @Override

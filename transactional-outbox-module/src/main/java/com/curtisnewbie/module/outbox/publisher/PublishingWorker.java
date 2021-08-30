@@ -4,6 +4,8 @@ import com.curtisnewbie.module.outbox.dao.MessageEntity;
 import com.curtisnewbie.module.outbox.service.MessageOutboxService;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Worker for actually sending messages to broker
  *
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PublishingWorker implements Runnable {
 
+    private static final AtomicBoolean isClosing = new AtomicBoolean(false);
     private final MessagePoller poller;
     private final MessageOutboxService messageOutboxService;
 
@@ -23,6 +26,9 @@ public class PublishingWorker implements Runnable {
     @Override
     public void run() {
         while (true) {
+            if (isClosing.get())
+                return;
+
             try {
                 MessageEntity me = poller.poll();
 
@@ -30,8 +36,17 @@ public class PublishingWorker implements Runnable {
                 messageOutboxService.publishAndUpdate(me);
             } catch (Exception e) {
                 log.info("Error occurred while sending message", e);
+                if (isClosing.get())
+                    return;
             }
         }
+    }
+
+    /**
+     * Notify all worker that the application is shutting down
+     */
+    public static void notifyApplicationShutdown() {
+        isClosing.set(true);
     }
 
 }
