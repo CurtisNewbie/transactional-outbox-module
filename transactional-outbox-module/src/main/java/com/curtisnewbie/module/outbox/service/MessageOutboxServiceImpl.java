@@ -3,6 +3,7 @@ package com.curtisnewbie.module.outbox.service;
 import com.curtisnewbie.common.vo.PagingVo;
 import com.curtisnewbie.module.messaging.service.MessagingParam;
 import com.curtisnewbie.module.messaging.service.MessagingService;
+import com.curtisnewbie.module.outbox.common.MessageHeaderUtil;
 import com.curtisnewbie.module.outbox.common.MessageIsPublished;
 import com.curtisnewbie.module.outbox.dao.MessageEntity;
 import com.curtisnewbie.module.outbox.dao.MessageMapper;
@@ -48,16 +49,16 @@ public class MessageOutboxServiceImpl implements MessageOutboxService {
                     .exchange(msg.getExchange())
                     .routingKey(msg.getRoutingKey())
                     .deliveryMode(MessageDeliveryMode.NON_PERSISTENT)
-                    .messagePostProcessor(new TypeInferMessagePostProcessor(msg))
+                    .messagePostProcessor(new HeaderMessagePostProcessor(msg))
                     .build());
         }
     }
 
-    private static class TypeInferMessagePostProcessor implements MessagePostProcessor {
+    private static class HeaderMessagePostProcessor implements MessagePostProcessor {
 
         private final MessageEntity me;
 
-        public TypeInferMessagePostProcessor(MessageEntity me) {
+        public HeaderMessagePostProcessor(MessageEntity me) {
             this.me = me;
         }
 
@@ -66,6 +67,7 @@ public class MessageOutboxServiceImpl implements MessageOutboxService {
             // for jackson to deserialize messages based on the type info
             Map<String, Object> headers = message.getMessageProperties().getHeaders();
             headers.put(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, me.getPayloadTypeInfer());
+            headers.put(MessageHeaderUtil.MESSAGE_ID_HEADER_NAME, me.getMessageId());
             return message;
         }
     }

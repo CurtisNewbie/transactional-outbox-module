@@ -1,5 +1,6 @@
 package com.curtisnewbie.module.outbox.consumer;
 
+import org.springframework.messaging.Message;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,10 +20,10 @@ public interface DuplicateMessageTracker {
     /**
      * Check if the message is a duplicate
      */
-    boolean isDuplicateMessage(@NotEmpty String messageId);
+    boolean isDuplicateMessage(@NotEmpty Message<?> message);
 
     /**
      * Mark the message as consumed
      */
-    void markAsConsumed(@NotEmpty String messageId, @NotNull Date consumeTime);
+    void markAsConsumed(@NotEmpty Message<?> message, @NotNull Date consumeTime);
 }
