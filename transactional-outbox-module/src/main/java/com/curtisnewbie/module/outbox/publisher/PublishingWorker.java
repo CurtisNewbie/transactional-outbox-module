@@ -18,7 +18,7 @@ public class PublishingWorker implements Runnable {
     private final MessagePoller poller;
     private final MessageOutboxService messageOutboxService;
 
-    public PublishingWorker(BlockingMessagePoller poller, MessageOutboxService messageOutboxService) {
+    public PublishingWorker(MessagePoller poller, MessageOutboxService messageOutboxService) {
         this.poller = poller;
         this.messageOutboxService = messageOutboxService;
     }

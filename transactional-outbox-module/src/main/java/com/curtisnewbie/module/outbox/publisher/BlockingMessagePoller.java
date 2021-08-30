@@ -29,13 +29,10 @@ public class BlockingMessagePoller implements MessagePoller {
     private final BlockingQueue<MessageEntity> messages = new ArrayBlockingQueue<>(200);
     private volatile Thread bg;
     private final AtomicBoolean isClosing = new AtomicBoolean(false);
-    private ExecutorService executor;
 
     @Autowired
     private MessageOutboxService messageOutboxService;
 
-    @Value("${transactional-outbox-module.publishing.concurrency:4}")
-    private int workers;
 
     @PostConstruct
     public void onInit() {
@@ -60,13 +57,6 @@ public class BlockingMessagePoller implements MessagePoller {
         });
         bg.setDaemon(true);
         bg.start();
-
-        // one poller, N workers
-        log.info("Creating {} workers for sending messages", workers);
-        executor = Executors.newFixedThreadPool(workers);
-        for (int i = 0; i < workers; i++) {
-            executor.execute(new PublishingWorker(this, messageOutboxService));
-        }
     }
 
     @PreDestroy
@@ -74,9 +64,6 @@ public class BlockingMessagePoller implements MessagePoller {
         isClosing.set(true);
         if (bg != null && bg.isAlive())
             bg.interrupt();
-
-        PublishingWorker.notifyApplicationShutdown();
-        executor.shutdown();
     }
 
     @Override
