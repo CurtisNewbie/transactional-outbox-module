@@ -11,10 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -33,20 +30,18 @@ public class BlockingMessagePoller implements MessagePoller {
     @Autowired
     private MessageOutboxService messageOutboxService;
 
-
     @PostConstruct
     public void onInit() {
         bg = new Thread(() -> {
             final PagingVo p = new PagingVo().ofLimit(30).ofPage(1);
             while (true) {
-                if (isClosing.get()) {
-                    log.info("Application shutting down, terminating message poller");
+                if (isClosing.get())
                     return;
-                }
                 try {
                     PageInfo<MessageEntity> unpublishedInPage = messageOutboxService.findUnpublishedInPage(p);
-                    for (MessageEntity me : unpublishedInPage.getList())
+                    for (MessageEntity me : unpublishedInPage.getList()) {
                         messages.put(me);
+                    }
                 } catch (InterruptedException e) {
                     // never stop unless the application is shutting down
                     if (!isClosing.get()) {
@@ -61,14 +56,15 @@ public class BlockingMessagePoller implements MessagePoller {
 
     @PreDestroy
     public void preDestroy() {
+        log.info("Application shutting down, terminating message poller");
         isClosing.set(true);
         if (bg != null && bg.isAlive())
             bg.interrupt();
     }
 
     @Override
-    public MessageEntity poll() {
-        return messages.poll();
+    public MessageEntity poll() throws InterruptedException {
+        return messages.take();
     }
 
 }

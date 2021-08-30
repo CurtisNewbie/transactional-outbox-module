@@ -7,9 +7,7 @@ CREATE TABLE IF NOT EXISTS message (
     message_id VARCHAR(50) COMMENT 'message id',
     create_time DATETIME NOT NULL COMMENT 'time when the message was published/created',
     payload VARCHAR(1000) NOT NULL COMMENT 'message body',
-    payload_type_infer VARCHAR(256) NOT NULL COMMENT 'payload conversion type for jackson',
     exchange VARCHAR(256) NOT NULL COMMENT 'exchange name',
-    queue VARCHAR(256) NOT NULL COMMENT 'queue',
     routing_key VARCHAR(256) NOT NULL COMMENT 'routing key',
     is_published SMALLINT NOT NULL DEFAULT 0 COMMENT 'whether the message is published, 0-not published, 1-published',
     PRIMARY KEY(is_published, message_id)
@@ -24,9 +22,7 @@ CREATE TABLE IF NOT EXISTS message_history (
     message_id VARCHAR(50) COMMENT 'message id',
     create_time DATETIME NOT NULL COMMENT 'time when the message was published/created',
     payload VARCHAR(1000) NOT NULL COMMENT 'message body',
-    payload_type_infer VARCHAR(256) NOT NULL COMMENT 'payload conversion type for jackson',
     exchange VARCHAR(256) NOT NULL COMMENT 'exchange name',
-    queue VARCHAR(256) NOT NULL COMMENT 'queue',
     routing_key VARCHAR(256) NOT NULL COMMENT 'routing key',
     is_published SMALLINT NOT NULL DEFAULT 0 COMMENT 'whether the message is published, 0-not published, 1-published',
     PRIMARY KEY(is_published, message_id)

@@ -13,10 +13,12 @@ import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MimeTypeUtils;
 
 import javax.validation.constraints.NotNull;
 import java.util.Map;
@@ -64,9 +66,9 @@ public class MessageOutboxServiceImpl implements MessageOutboxService {
 
         @Override
         public Message postProcessMessage(Message message) throws AmqpException {
-            // for jackson to deserialize messages based on the type info
-            Map<String, Object> headers = message.getMessageProperties().getHeaders();
-            headers.put(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, me.getPayloadTypeInfer());
+            MessageProperties prop = message.getMessageProperties();
+            Map<String, Object> headers = prop.getHeaders();
+            // message_id
             headers.put(MessageHeaderUtil.MESSAGE_ID_HEADER_NAME, me.getMessageId());
             return message;
         }

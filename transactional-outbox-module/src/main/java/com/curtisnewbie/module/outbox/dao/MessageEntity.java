@@ -30,25 +30,17 @@ public class MessageEntity {
     /** routing key */
     private String routingKey;
 
-    /** queue */
-    private String queue;
-
     /** message body */
     private String payload;
 
-    /** inferred type of payload */
-    private String payloadTypeInfer;
-
     @Builder
     public MessageEntity(String messageId, Integer isPublished, Date createTime, String exchange, String routingKey,
-                         String queue, String payload, String payloadTypeInfer) {
+                         String payload) {
         this.messageId = messageId;
         this.isPublished = isPublished;
         this.createTime = createTime;
         this.exchange = exchange;
         this.routingKey = routingKey;
-        this.queue = queue;
         this.payload = payload;
-        this.payloadTypeInfer = payloadTypeInfer;
     }
 }

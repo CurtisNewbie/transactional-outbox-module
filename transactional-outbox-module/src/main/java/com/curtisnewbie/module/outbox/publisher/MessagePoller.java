@@ -15,6 +15,6 @@ public interface MessagePoller {
      * This method may blocks when there is no message
      * </p>
      */
-    MessageEntity poll();
+    MessageEntity poll() throws InterruptedException;
 
 }

@@ -31,7 +31,6 @@ public class TransactionalMessagingPublisherImpl implements TransactionalMessage
         try {
             messageMapper.insert(MessageEntity.builder()
                     .messageId(UUID.randomUUID().toString())
-                    .payloadTypeInfer(getTypeHint(param.getPayload()))
                     .payload(JsonUtils.writeValueAsString(param.getPayload()))
                     .routingKey(param.getRoutingKey())
                     .exchange(param.getExchange())

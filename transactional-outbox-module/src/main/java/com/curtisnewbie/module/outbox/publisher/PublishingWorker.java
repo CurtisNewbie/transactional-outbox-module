@@ -34,6 +34,9 @@ public class PublishingWorker implements Runnable {
 
                 // publish the message to broker
                 messageOutboxService.publishAndUpdate(me);
+            } catch (InterruptedException e1) {
+                if (!isClosing.get())
+                    Thread.currentThread().interrupt();
             } catch (Exception e) {
                 log.info("Error occurred while sending message", e);
                 if (isClosing.get())
