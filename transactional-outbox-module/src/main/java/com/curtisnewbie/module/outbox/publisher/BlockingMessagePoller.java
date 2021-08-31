@@ -47,7 +47,7 @@ public class BlockingMessagePoller implements MessagePoller {
     }
 
     @Override
-    public MessageEntity poll() throws InterruptedException {
+    public MessageEntity take() throws InterruptedException {
         return messageBlockingQueue.take();
     }
 

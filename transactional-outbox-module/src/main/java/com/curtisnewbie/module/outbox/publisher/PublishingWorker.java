@@ -30,7 +30,7 @@ public class PublishingWorker implements Runnable {
                 return;
 
             try {
-                MessageEntity me = poller.poll();
+                MessageEntity me = poller.take();
 
                 // publish the message to broker
                 messageOutboxService.publishAndUpdate(me);
