@@ -28,11 +28,11 @@ Note that there is only one `MessagePoller` for polling messages from database, 
 
 The following are the properties that you may configure:
 
-data type | property name | description
---------- | ------------- | ----------- 
-int | transactional-outbox-module.publishing-concurrency | number of `PublishingWorker` used
-int | transactional-outbox-module.message-polling-page-size | page size of unpublished messages polled by `MessagePoller` from database
-int |transactional-outbox-module.message-polling-total-limit  | total size limit of all messages polled in application (i.e., the size of the `BlockingQueue`)
+data type | property name | description | default value
+--------- | ------------- | ----------- | -------------
+int | transactional-outbox-module.publishing-concurrency | number of `PublishingWorker` used | 4 
+int | transactional-outbox-module.message-polling-page-size | page size of unpublished messages polled by `MessagePoller` from database | 30
+int |transactional-outbox-module.message-polling-total-limit  | total size limit of all messages polled in application (i.e., the size of the `BlockingQueue`) | 200
 
 ## Dependencies
 
