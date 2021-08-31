@@ -22,7 +22,17 @@ public interface DuplicateMessageTracker {
     boolean isDuplicateMessage(@NotNull Message<?> message);
 
     /**
+     * Check if the message is a duplicate
+     */
+    boolean isDuplicateMessage(@NotNull org.springframework.amqp.core.Message message);
+
+    /**
      * Mark the message as consumed
      */
     void markAsConsumed(@NotNull Message<?> message, @NotNull Date consumeTime);
+
+    /**
+     * Mark the message as consumed
+     */
+    void markAsConsumed(@NotNull org.springframework.amqp.core.Message message, @NotNull Date consumeTime);
 }
