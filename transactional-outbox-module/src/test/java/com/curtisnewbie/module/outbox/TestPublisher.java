@@ -40,10 +40,10 @@ import java.util.Date;
 @SpringBootTest(classes = {TestConfig.class, TestPublisher.class})
 public class TestPublisher {
 
-    public static final String MOCKED_LISTENER_ID = "demoBeanListener";
-    public static final String TEST_EXCHANGE = "test-exchange";
-    public static final String TEST_QUEUE = "test-queue";
-    public static final String DEMO_BEAN_NAME = "Monkas";
+    public static final String MOCKED_LISTENER_ID = "transactional-out-box-mod-demoBeanListener";
+    public static final String TEST_EXCHANGE = "transactional-out-box-mod-test-exchange";
+    public static final String TEST_QUEUE = "transactional-out-box-mod-test-queue";
+    public static final String DEMO_BEAN_NAME = "yikes";
 
     @Autowired
     private TransactionalMessagePublisher transactionalMessagePublisher;
