@@ -1,5 +1,6 @@
 package com.curtisnewbie.module.outbox.publisher;
 
+import com.curtisnewbie.module.outbox.config.ModuleConfig;
 import com.curtisnewbie.module.outbox.service.MessageOutboxService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +22,21 @@ import java.util.concurrent.Executors;
 public class PublishingWorkerFactory {
 
     private ExecutorService executor;
-    private static final String PROP_KEY_WORKER_COUNT = "transactional-outbox-module.publishing-concurrency";
-
-    @Value("${" + PROP_KEY_WORKER_COUNT + ":4}")
-    private int workers;
 
     @Autowired
     private MessageOutboxService messageOutboxService;
     @Autowired
     private MessagePoller messagePoller;
+    @Autowired
+    private ModuleConfig moduleConfig;
 
     @PostConstruct
     public void onInit() {
+        final int N = moduleConfig.getPublishingWorkerCount();
         // one poller, N workers
-        log.info("Creating {} workers for sending messages", workers);
-        executor = Executors.newFixedThreadPool(workers);
-        for (int i = 0; i < workers; i++) {
+        log.info("Creating {} workers for sending messages", N);
+        executor = Executors.newFixedThreadPool(N);
+        for (int i = 0; i < N; i++) {
             executor.execute(new PublishingWorker(messagePoller, messageOutboxService));
         }
     }
