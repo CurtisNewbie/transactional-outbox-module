@@ -1,4 +1,4 @@
-package com.curtisnewbie.module.outbox.service;
+package com.curtisnewbie.module.outbox.publisher;
 
 import com.curtisnewbie.common.vo.PagingVo;
 import com.curtisnewbie.module.messaging.service.MessagingParam;
@@ -14,11 +14,9 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MimeTypeUtils;
 
 import javax.validation.constraints.NotNull;
 import java.util.Map;

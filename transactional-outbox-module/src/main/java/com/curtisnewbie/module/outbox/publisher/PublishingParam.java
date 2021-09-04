@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * Param for {@link com.curtisnewbie.module.outbox.publisher.TransactionalMessagePublisher}
+ * Param for {@link TransactionalMessagePublisher}
  * </p>
  *
  * @author yongjie.zhuang

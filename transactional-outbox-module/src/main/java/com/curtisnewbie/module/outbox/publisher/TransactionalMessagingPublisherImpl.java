@@ -5,8 +5,6 @@ import com.curtisnewbie.module.outbox.common.MessageIsPublished;
 import com.curtisnewbie.module.outbox.dao.MessageEntity;
 import com.curtisnewbie.module.outbox.dao.MessageMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,10 +38,5 @@ public class TransactionalMessagingPublisherImpl implements TransactionalMessage
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Unable to serialise payload object to json string");
         }
-    }
-
-    // for using Jackson message converter
-    private String getTypeHint(Object o) {
-        return JsonUtils.constructType(o.getClass()).getRawClass().getName();
     }
 }

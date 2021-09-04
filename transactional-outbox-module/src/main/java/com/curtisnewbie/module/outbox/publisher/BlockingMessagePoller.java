@@ -3,7 +3,6 @@ package com.curtisnewbie.module.outbox.publisher;
 import com.curtisnewbie.common.vo.PagingVo;
 import com.curtisnewbie.module.outbox.config.ModuleConfig;
 import com.curtisnewbie.module.outbox.dao.MessageEntity;
-import com.curtisnewbie.module.outbox.service.MessageOutboxService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@
 
 This is a basic polling publisher implementation of the transactional-outbox pattern.
 
-## Middlewares
+## Middleware
 
 - MySQL
 - RabbitMQ

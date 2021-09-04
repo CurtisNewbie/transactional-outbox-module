@@ -1,11 +1,9 @@
 package com.curtisnewbie.module.outbox;
 
 import com.curtisnewbie.common.util.JsonUtils;
-import com.curtisnewbie.common.vo.PagingVo;
 import com.curtisnewbie.module.outbox.consumer.DuplicateMessageTracker;
 import com.curtisnewbie.module.outbox.publisher.PublishingParam;
 import com.curtisnewbie.module.outbox.publisher.TransactionalMessagePublisher;
-import com.curtisnewbie.module.outbox.service.MessageOutboxService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.Data;

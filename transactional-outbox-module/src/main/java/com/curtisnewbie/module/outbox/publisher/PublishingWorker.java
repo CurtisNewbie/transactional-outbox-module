@@ -1,7 +1,6 @@
 package com.curtisnewbie.module.outbox.publisher;
 
 import com.curtisnewbie.module.outbox.dao.MessageEntity;
-import com.curtisnewbie.module.outbox.service.MessageOutboxService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.atomic.AtomicBoolean;

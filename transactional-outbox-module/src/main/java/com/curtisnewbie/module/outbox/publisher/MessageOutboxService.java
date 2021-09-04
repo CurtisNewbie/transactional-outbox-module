@@ -1,8 +1,7 @@
-package com.curtisnewbie.module.outbox.service;
+package com.curtisnewbie.module.outbox.publisher;
 
 import com.curtisnewbie.common.vo.PagingVo;
 import com.curtisnewbie.module.outbox.dao.MessageEntity;
-import com.curtisnewbie.module.outbox.publisher.PublishingParam;
 import com.github.pagehelper.PageInfo;
 import org.springframework.validation.annotation.Validated;
 
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * Service for message table
  * </p>
  * <p>
- * Don't use this service directly, use {@link com.curtisnewbie.module.outbox.publisher.TransactionalMessagePublisher#publish(PublishingParam)}
+ * Don't use this service directly, use {@link TransactionalMessagePublisher#publish(PublishingParam)}
  * </p>
  *
  * @author yongjie.zhuang
@@ -31,8 +30,8 @@ public interface MessageOutboxService {
      * Publish the message to broker and update it as published within a single transaction
      * </p>
      *
-     * @see com.curtisnewbie.module.outbox.publisher.PublishingWorker
-     * @see com.curtisnewbie.module.outbox.publisher.TransactionalMessagePublisher
+     * @see PublishingWorker
+     * @see TransactionalMessagePublisher
      */
     void publishAndUpdate(@NotNull MessageEntity msg);
 

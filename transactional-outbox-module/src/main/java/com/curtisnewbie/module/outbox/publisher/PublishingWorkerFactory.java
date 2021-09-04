@@ -1,10 +1,8 @@
 package com.curtisnewbie.module.outbox.publisher;
 
 import com.curtisnewbie.module.outbox.config.ModuleConfig;
-import com.curtisnewbie.module.outbox.service.MessageOutboxService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
