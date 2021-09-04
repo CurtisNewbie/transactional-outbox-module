@@ -51,15 +51,28 @@ public class BlockingMessagePoller implements MessagePoller {
     }
 
     private void _startPollingThread() {
+        final int waitTimeInMilliSec = moduleConfig.getMessagePollingWaitTime();
+
         bg = new Thread(() -> {
-            final PagingVo p = new PagingVo().ofLimit(30).ofPage(1);
+            final PagingVo p = new PagingVo().ofLimit(moduleConfig.getMessagePollingPageSize()).ofPage(1);
             while (true) {
                 if (isClosing.get())
                     return;
                 try {
+                    int lastRemaining = messageBlockingQueue.size();
+                    if (lastRemaining > 0) {
+                        log.info("Message queues not empty ({} remaining), publishing works are unable to " +
+                                "publish polled messages, you may consider to increase " +
+                                "the number of PublishingWorker", lastRemaining);
+                    }
                     PageInfo<MessageEntity> unpublishedInPage = messageOutboxService.findUnpublishedInPage(p);
                     for (MessageEntity me : unpublishedInPage.getList()) {
                         messageBlockingQueue.put(me);
+                    }
+
+                    if (waitTimeInMilliSec > 0) {
+                        log.info("Wait {} milliseconds before next message polling", waitTimeInMilliSec);
+                        Thread.sleep(waitTimeInMilliSec);
                     }
                 } catch (InterruptedException e) {
                     // never stop unless the application is shutting down

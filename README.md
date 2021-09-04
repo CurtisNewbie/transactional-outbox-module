@@ -32,7 +32,8 @@ data type | property name | description | default value
 --------- | ------------- | ----------- | -------------
 int | transactional-outbox-module.publishing-concurrency | number of `PublishingWorker` used | 4 
 int | transactional-outbox-module.message-polling-page-size | page size of unpublished messages polled by `MessagePoller` from database | 30
-int |transactional-outbox-module.message-polling-total-limit  | total size limit of all messages polled in application (i.e., the size of the `BlockingQueue`) | 200
+int | transactional-outbox-module.message-polling-total-limit  | total size limit of all messages polled and stored in application (i.e., the size of the `BlockingQueue`) | 200
+int | transactional-outbox-module.message-polling-wait-time | time duration in milliseconds that the `MessagePoller` will wait for next time polling messages from database  | 100
 
 ## Dependencies
 

@@ -32,7 +32,7 @@ public class PublishingWorkerFactory {
     public void onInit() {
         final int N = moduleConfig.getPublishingWorkerCount();
         // one poller, N workers
-        log.info("Creating {} workers for sending messages", N);
+        log.info("Creating {} workers for dispatching messages to message broker", N);
         executor = Executors.newFixedThreadPool(N);
         for (int i = 0; i < N; i++) {
             executor.execute(new PublishingWorker(messagePoller, messageOutboxService));
