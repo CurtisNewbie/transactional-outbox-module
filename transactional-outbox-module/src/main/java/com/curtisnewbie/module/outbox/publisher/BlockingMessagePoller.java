@@ -61,8 +61,8 @@ public class BlockingMessagePoller implements MessagePoller {
                 try {
                     int lastRemaining = messageBlockingQueue.size();
                     if (lastRemaining > 0) {
-                        log.info("Message queues not empty ({} remaining), publishing works are unable to " +
-                                "publish polled messages, you may consider to increase " +
+                        log.info("Message queue not empty ({} remaining), workers are unable to " +
+                                "publish all polled messages in previous iteration, you may consider to increase " +
                                 "the number of PublishingWorker", lastRemaining);
                     }
                     PageInfo<MessageEntity> unpublishedInPage = messageOutboxService.findUnpublishedInPage(p);
